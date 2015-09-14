@@ -1,7 +1,12 @@
+import ActiveModelContext from 'coalesce/active_model/context';
+
 function setupApp() {
   var self = this;
   Ember.run(function() {
-    self.App = Ember.Application.create({rootElement: '#ember-testing'});
+    self.App = Ember.Application.create({
+      rootElement: '#ember-testing',
+      CoalesceContext: ActiveModelContext
+    });
     // don't need this since we currently destroy the app after each run
     //self.App.setupForTesting();
     self.App.injectTestHelpers();

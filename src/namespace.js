@@ -17,7 +17,7 @@ if ('undefined' === typeof Cs) {
     @default '<%= versionStamp %>'
     @static
   */
-  Cs = Ember.Namespace.create({
+  Cs = window.Ember.Namespace.create({
     VERSION: 'VERSION_STRING_PLACEHOLDER'
   });
 }

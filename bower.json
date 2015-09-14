@@ -2,7 +2,7 @@
   "name": "coalesce",
   "private": true,
   "devDependencies": {
-    "coalesce": "coalescejs/coalesce-shim#0921226c45bc653731258ec7a836d291d33ad9b9",
+    "coalesce": "https://github.com/getoutreach/coalesce.git#86b3d3d08194de066edf6377f0bb438e9f5174ef",
     "ember": "~1.6.0",
     "loader": "stefanpenner/loader.js#1.0.0",
     "jsondiffpatch": "~0.1.8",

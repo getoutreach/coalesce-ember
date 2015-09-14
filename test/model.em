@@ -137,6 +137,7 @@ describe 'ember/model', ->
     it 'is observable', ->
       class User extends Model
         name: attr 'string'
+      User.typeKey = 'user'
       @container.register('model:user', User)
         
       user = @session.create 'user',
@@ -158,6 +159,7 @@ describe 'ember/model', ->
     beforeEach ->
       class User extends Model
         name: attr 'string'
+      User.typeKey = 'user'
       @User = User
       @container.register('model:user', User)
     

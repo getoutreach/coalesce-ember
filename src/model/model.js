@@ -1,3 +1,4 @@
+import Coalesce from 'coalesce';
 import applyEmber from '../utils/apply_ember';
 import Model from 'coalesce/model/model';
 import Field from 'coalesce/model/field';
@@ -14,7 +15,7 @@ var merge = _.merge,
     defaults = _.defaults;
 
 
-var EmberModel = applyEmber(Model, ['fields', 'ownFields', 'attributes', 'relationships'], Observable, {
+var EmberModel = applyEmber(Model, ['fields', 'ownFields', 'inverseFor', 'attributes', 'relationships', 'defineField', 'defineSchema'], Observable, {
   
   metaWillChange: function(name) {
     Model.prototype.metaWillChange.apply(this, arguments);
@@ -69,6 +70,12 @@ var EmberModel = applyEmber(Model, ['fields', 'ownFields', 'attributes', 'relati
       obj.constructor.defineField(new CoreBelongsTo(keyName, value));
     } else if(value instanceof HasMany) {
       obj.constructor.defineField(new CoreHasMany(keyName, value));
+    }
+  },
+  
+  willWatchProperty(key) {
+    if(this.isManaged && this.shouldTriggerLoad(key)) {
+      Coalesce.backburner.scheduleOnce('actions', this, this.load);
     }
   }
   
@@ -141,6 +148,15 @@ EmberModel.reopenClass({
     // eagerly setup the prototype
     klass.proto();
     return klass;
+  },
+  
+  reify(...args) {
+    // no need to reify the root class
+    if(this === EmberModel) {
+      return;
+    }
+    
+    return this._super.apply(this, args);
   }
   
 });

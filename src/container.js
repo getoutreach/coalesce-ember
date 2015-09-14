@@ -1,18 +1,15 @@
-import {setupContainer} from 'coalesce/container';
 import DebugAdapter from './debug/debug_adapter';
 import Session from './session';
 import Errors from './model/errors';
 
-function setupContainerForEmber(container) {
-  setupContainer.apply(this, arguments);
+function setupContainerForEmber(container, application) {
+  container.register('session:application', Session);
+  
+  new application.CoalesceContext(null, container);
+  
   container.register('model:errors', Errors);
   
-  container.register('session:base', Session);
-  container.register('session:main', container.lookupFactory('session:application') || Session);
-  
-  container.typeInjection('controller', 'adapter', 'adapter:main');
   container.typeInjection('controller', 'session', 'session:main');
-  container.typeInjection('route', 'adapter', 'adapter:main');
   container.typeInjection('route', 'session', 'session:main');
   
   if(Ember.DataAdapter) {
