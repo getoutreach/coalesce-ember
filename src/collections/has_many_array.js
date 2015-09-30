@@ -60,10 +60,14 @@ export default ModelArray.extend({
         name = get(this, 'name'),
         session = get(this, 'session');
 
-    if (session && !model._suspendedRelationships) {
-      for (var i=index; i<index+added; i++) {
-        var inverseModel = this.objectAt(i);
+    for (var i=index; i<index+added; i++) {
+      var inverseModel = this.objectAt(i);
+      if (session && !model._suspendedRelationships) {
         session.inverseManager.registerRelationship(model, name, inverseModel);
+      }
+      
+      if(this.embedded) {
+        inverseModel._parent = model;
       }
     }
   },
