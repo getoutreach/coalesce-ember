@@ -60,7 +60,10 @@ export default Ember.ArrayProxy.extend({
   },
 
   copy: function() {
-    return this.content.copy();
+    // Cannot simply copy the proxied content, need to hit `objectAtContent`
+    return this.map(function(item) {
+      return item;
+    });
   },
 
   /**
